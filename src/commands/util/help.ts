@@ -16,8 +16,6 @@ export default class HelpCommand extends Command {
       helpEmbed.addField(`${ctx.client.prefix}${command[1].name} ${command[1].usage}`, command[1].description as string);
     }
 
-    console.log('2');
-
     ctx.channel.send(helpEmbed);
   } 
 }
