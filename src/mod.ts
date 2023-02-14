@@ -3,6 +3,7 @@ import { config } from '../config.ts';
 import { quoteCheck } from "./handlers/quote.ts";
 import { nhentaiCheck } from './handlers/nhentai.ts';
 import { deleteHandler } from "./handlers/delete.ts";
+import { editHandler } from "./handlers/edit.ts";
 
 const client = new CommandClient({
   prefix: '\\',
@@ -29,6 +30,10 @@ client.on('messageCreate', async (message: Message) => {
 
 client.on('messageDelete', async (message: Message) => {
   if (message.channelID !== '789201783901650975') await deleteHandler(client, message);
+});
+
+client.on('messageUpdate', async (oldMessage: Message, newMessage: Message) => {
+  await editHandler(client, oldMessage, newMessage);
 });
 
 client.connect(config.token, Intents.All);
