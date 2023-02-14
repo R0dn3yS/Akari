@@ -1,5 +1,6 @@
-import { CommandClient, Intents } from '../deps.ts';
+import { CommandClient, Intents, Message } from '../deps.ts';
 import { config } from '../config.ts';
+import { quoteCheck } from "./handlers/quote.ts";
 
 const client = new CommandClient({
   prefix: '\\',
@@ -16,6 +17,12 @@ client.once('ready', async () => {
 });
 
 client.commands.loader.loadDirectory('src/commands', { maxDepth: 2 });
+
+client.on('messageCreate', async (message: Message) => {
+  if (message.author.bot) return;
+
+  if (message.channelID === '789201783901650975') return await quoteCheck(message);
+});
 
 client.connect(config.token, Intents.All);
 
