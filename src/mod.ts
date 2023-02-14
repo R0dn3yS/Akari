@@ -2,6 +2,7 @@ import { CommandClient, Intents, Message } from '../deps.ts';
 import { config } from '../config.ts';
 import { quoteCheck } from "./handlers/quote.ts";
 import { nhentaiCheck } from './handlers/nhentai.ts';
+import { deleteHandler } from "./handlers/delete.ts";
 
 const client = new CommandClient({
   prefix: '\\',
@@ -24,6 +25,10 @@ client.on('messageCreate', async (message: Message) => {
 
   if (message.channelID === '789201783901650975') return await quoteCheck(message);
   nhentaiCheck(message);
+});
+
+client.on('messageDelete', async (message: Message) => {
+  if (message.channelID !== '789201783901650975') await deleteHandler(client, message);
 });
 
 client.connect(config.token, Intents.All);
